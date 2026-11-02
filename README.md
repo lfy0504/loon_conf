@@ -23,7 +23,11 @@
 1. 在 Loon 中导入 `Loon.conf`：
    - 配置 → 添加配置 → 从文件导入，选择 `Loon.conf`；或
    - 新建配置后，把文件内容粘贴进去。
-2. 在 Loon 的“节点/订阅”里找到 `我的订阅`，把占位 URL 换成你的机场订阅地址。
+2. 在 Loon 的“配置 → 编辑”里找到 `[Remote Proxy]`，把**整行**替换成你的订阅地址，保留后面的参数：
+   ```ini
+   我的订阅 = 你的订阅地址,parser-enabled=true,argument="resourceUrlOnly=true&ua=shadowrocket&noCache=true",enabled=true
+   ```
+   > 不要只在“订阅 URL”输入框里单独改地址，否则 Loon 可能重建订阅项并丢掉 `parser-enabled` 和 `argument`，结果仍然是 403。
 3. 启动 Loon，在“策略”页确认节点已经出现，并检查各地区的节点数量。
 
 > 本配置不包含订阅地址或 token；填写订阅后的配置请勿公开分享。
