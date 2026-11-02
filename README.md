@@ -2,6 +2,13 @@
 
 主文件：[Loon.conf](Loon.conf)
 
+## 手机导入地址
+
+- jsDelivr（推荐）：
+  `https://cdn.jsdelivr.net/gh/lfy0504/loon_conf@main/Loon.conf`
+- GitHub Raw：
+  `https://raw.githubusercontent.com/lfy0504/loon_conf/main/Loon.conf`
+
 ## 功能
 
 - **自动分流**：广告拦截、中国大陆直连、其余流量走主策略
