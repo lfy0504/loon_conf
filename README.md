@@ -17,7 +17,7 @@
 - **地区分组**：香港、美国、新加坡、日本、台湾、韩国、其他
 - **总入口**：`主策略` 默认选中 `自动选择`（全部节点中最快的一个），也可手动切到任意地区
 - **订阅留空**：为避免泄露 token，配置不包含机场订阅；导入后手动填写订阅地址
-- **UA 已预留**：机场要求 `User-Agent: shadowrocket`，订阅项已保留 `resource-parser` 参数
+- **UA 已预留**：机场要求 `User-Agent: shadowrocket`，订阅项使用 Sub-Store 解析器插件
 
 ## 使用步骤
 
@@ -26,9 +26,9 @@
    - 新建配置后，把文件内容粘贴进去。
 2. 在 Loon 的“配置 → 编辑”里找到 `[Remote Proxy]`，把**整行**替换成你的订阅地址，保留后面的参数：
    ```ini
-   我的订阅 = 你的订阅地址,parser-enabled=true,argument="resourceUrlOnly=true&ua=shadowrocket&noCache=true",enabled=true
+   我的订阅 = 你的订阅地址,parser-enabled=true,parser-plugin=https://cdn.jsdelivr.net/gh/sub-store-org/Sub-Store@master/config/Loon-parser.plugin,argument="ua=shadowrocket",enabled=true
    ```
-   > 不要只在“订阅 URL”输入框里单独改地址，否则 Loon 可能重建订阅项并丢掉 `parser-enabled` 和 `argument`，结果仍然是 403。
+   > 不要只在“订阅 URL”输入框里单独改地址，否则 Loon 可能重建订阅项并丢掉 `parser-enabled`、`parser-plugin` 和 `argument`，结果仍然是 403。
 3. 启动 Loon，在“策略”页确认节点已经出现，并检查各地区的节点数量。
 
 > 本配置不包含订阅地址或 token；填写订阅后的配置请勿公开分享。
@@ -39,22 +39,23 @@
 
 直接让 Loon 下载订阅时，Loon 会使用自己的 User-Agent，机场返回 `403 Forbidden`。实测只有 `User-Agent: shadowrocket` 才能拿到节点。
 
-配置里使用 Sub-Store 资源解析器：
+配置里使用 Sub-Store 的 **Loon 解析器插件**：
 
 ```ini
-[General]
-resource-parser = https://cdn.jsdelivr.net/gh/sub-store-org/Sub-Store@release/sub-store-parser.loon.min.js
+[Plugin]
+https://cdn.jsdelivr.net/gh/sub-store-org/Sub-Store@master/config/Loon-parser.plugin, tag=Sub-Store解析器, enabled=true
 
 [Remote Proxy]
-我的订阅 = https://...,parser-enabled=true,argument="resourceUrlOnly=true&ua=shadowrocket&noCache=true",enabled=true
+我的订阅 = https://...,parser-enabled=true,parser-plugin=https://cdn.jsdelivr.net/gh/sub-store-org/Sub-Store@master/config/Loon-parser.plugin,argument="ua=shadowrocket",enabled=true
 ```
 
-- `resource-parser` 加载 Sub-Store 解析器；
+- `[Plugin]` 安装 Sub-Store 解析器插件；
 - `parser-enabled=true` 让该订阅走解析器；
-- `argument` 里的 `resourceUrlOnly=true&ua=shadowrocket` 让解析器用 `shadowrocket` 这个 User-Agent 重新拉取；
-- 解析器同时负责 Base64 解码和 `anytls://` 转 Loon 节点格式。
+- `parser-plugin` 指定使用这个插件；
+- `argument="ua=shadowrocket"` 让插件用 `shadowrocket` 这个 User-Agent 重新拉取；
+- 插件同时负责 Base64 解码和 `anytls://` 转 Loon 节点格式。
 
-解析器来自 [Sub-Store](https://github.com/sub-store-org/Sub-Store)，使用 `release` 分支的 jsDelivr 地址，避免手机端访问 GitHub Release 失败。
+解析器来自 [Sub-Store](https://github.com/sub-store-org/Sub-Store)，通过 jsDelivr 加载。
 
 ## 分组说明
 
@@ -114,7 +115,7 @@ DOMAIN-SUFFIX,github.com,香港
 如果机场以后要求别的 User-Agent，修改 `[Remote Proxy]` 中的：
 
 ```ini
-argument="resourceUrlOnly=true&ua=shadowrocket&noCache=true"
+argument="ua=shadowrocket"
 ```
 
 把 `shadowrocket` 换成机场要求的值即可，例如 `clash.meta/v1.19.99`。
@@ -135,7 +136,7 @@ argument="resourceUrlOnly=true&ua=shadowrocket&noCache=true"
 
 ### 解析器加载失败
 
-检查 `resource-parser` 地址是否能访问；如果 jsDelivr 不可用，可以把该地址换成解析器脚本的其他镜像地址，或临时把节点直接写入 `[Proxy]`。
+检查 `[Plugin]` 里的 Sub-Store 解析器插件地址是否能访问；如果 jsDelivr 不可用，可以把该地址换成解析器插件的其他镜像地址，或临时把节点直接写入 `[Proxy]`。
 
 如果日志仍然显示 `403`，确认 Loon 版本不低于 3.5.1，并在 Loon 日志中查看解析器是否执行；也可以尝试在 Loon 的“外部资源”中手动更新一次。
 
