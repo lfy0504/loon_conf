@@ -25,9 +25,9 @@
    - 新建配置后，把文件内容粘贴进去。
 2. 在 Loon 的“配置 → 编辑”里找到 `[Remote Proxy]`，把**整行**替换成你的订阅地址，保留后面的参数：
    ```ini
-   我的订阅 = 你的订阅地址,parser-enabled=true,argument="resourceUrlOnly=true&ua=shadowrocket&noCache=true",enabled=true
+   我的订阅 = 你的订阅地址,parser-enabled=true,enabled=true
    ```
-   > 不要只在“订阅 URL”输入框里单独改地址，否则 Loon 可能重建订阅项并丢掉 `parser-enabled` 和 `argument`，结果仍然是 403。
+   > 不要只在“订阅 URL”输入框里单独改地址，否则 Loon 可能重建订阅项并丢掉 `parser-enabled`，结果仍然是 403。
 3. 启动 Loon，在“策略”页确认节点已经出现，并检查各地区的节点数量。
 
 > 本配置不包含订阅地址或 token；填写订阅后的配置请勿公开分享。
@@ -38,22 +38,23 @@
 
 直接让 Loon 下载订阅时，Loon 会使用自己的 User-Agent，机场返回 `403 Forbidden`。实测只有 `User-Agent: shadowrocket` 才能拿到节点。
 
-配置里做了两件事：
+配置里使用一个很小的自定义解析器：
 
 ```ini
 [General]
-resource-parser = https://cdn.jsdelivr.net/gh/sub-store-org/Sub-Store@release/sub-store-parser.loon.min.js
+resource-parser = https://cdn.jsdelivr.net/gh/lfy0504/loon_conf@main/ua-parser.js
 
 [Remote Proxy]
-我的订阅 = https://...,parser-enabled=true,argument="resourceUrlOnly=true&ua=shadowrocket&noCache=true",enabled=true
+我的订阅 = https://...,parser-enabled=true,enabled=true
 ```
 
-- `resource-parser` 加载 Sub-Store 解析器；
+- `resource-parser` 加载自定义解析器；
 - `parser-enabled=true` 让该订阅走解析器；
-- `argument` 里的 `resourceUrlOnly=true&ua=shadowrocket` 让解析器直接用 `shadowrocket` 这个 User-Agent 重新拉取；
-- 解析器同时负责 Base64 解码和 Shadowrocket URI 转 Loon 节点格式。
+- 解析器内部固定使用 `User-Agent: shadowrocket` 重新拉取；
+- 解析器同时负责 Base64 解码和 `anytls://` 转 Loon 节点格式；
+- 因为 UA 写在解析器里，不需要在订阅行写 `argument`，少一个会被 Loon 编辑界面丢掉的参数。
 
-解析器来自 [Sub-Store](https://github.com/sub-store-org/Sub-Store)，使用 `release` 分支的 jsDelivr 地址，避免手机端访问 GitHub Release 失败。
+解析器源码在本仓库的 `ua-parser.js`，通过 jsDelivr 加载。
 
 ## 分组说明
 
@@ -110,13 +111,13 @@ DOMAIN-SUFFIX,github.com,香港
 
 ### 机场更换了 UA
 
-如果机场以后要求别的 User-Agent，修改 `[Remote Proxy]` 中的：
+如果机场以后要求别的 User-Agent，修改仓库里的 `ua-parser.js`：
 
-```ini
-argument="resourceUrlOnly=true&ua=shadowrocket&noCache=true"
+```js
+"User-Agent": "shadowrocket"
 ```
 
-把 `shadowrocket` 换成机场要求的值即可，例如 `clash.meta/v1.19.99`。
+把 `shadowrocket` 换成机场要求的值即可，例如 `clash.meta/v1.19.99`，然后更新 jsDelivr 缓存或改版本号。
 
 ### 节点没有正确归组
 
