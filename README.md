@@ -31,7 +31,7 @@
 
 ```ini
 [General]
-resource-parser = https://github.com/sub-store-org/Sub-Store/releases/latest/download/sub-store-parser.loon.min.js
+resource-parser = https://cdn.jsdelivr.net/gh/sub-store-org/Sub-Store@release/sub-store-parser.loon.min.js
 
 [Remote Proxy]
 我的订阅 = https://...,parser-enabled=true,argument="resourceUrlOnly=true&ua=shadowrocket&noCache=true",enabled=true
@@ -42,7 +42,7 @@ resource-parser = https://github.com/sub-store-org/Sub-Store/releases/latest/dow
 - `argument` 里的 `resourceUrlOnly=true&ua=shadowrocket` 让解析器直接用 `shadowrocket` 这个 User-Agent 重新拉取；
 - 解析器同时负责 Base64 解码和 Shadowrocket URI 转 Loon 节点格式。
 
-解析器来自 [Sub-Store](https://github.com/sub-store-org/Sub-Store)，使用官方 release 文件。
+解析器来自 [Sub-Store](https://github.com/sub-store-org/Sub-Store)，使用 `release` 分支的 jsDelivr 地址，避免手机端访问 GitHub Release 失败。
 
 ## 分组说明
 
@@ -123,7 +123,7 @@ argument="resourceUrlOnly=true&ua=shadowrocket&noCache=true"
 
 ### 解析器加载失败
 
-检查 `resource-parser` 地址是否能访问；如果 GitHub release 不可用，可以把该地址换成解析器脚本的其他镜像地址，或临时把节点直接写入 `[Proxy]`。
+检查 `resource-parser` 地址是否能访问；如果 jsDelivr 不可用，可以把该地址换成解析器脚本的其他镜像地址，或临时把节点直接写入 `[Proxy]`。
 
 如果日志仍然显示 `403`，确认 Loon 版本不低于 3.5.1，并在 Loon 日志中查看解析器是否执行；也可以尝试在 Loon 的“外部资源”中手动更新一次。
 
