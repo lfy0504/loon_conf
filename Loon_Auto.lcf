@@ -44,6 +44,10 @@ ALL_Filter = NameRegex, FilterKey = "."
 韩国 = url-test,KR_Filter,url = http://www.gstatic.com/generate_204,interval = 600,tolerance = 50,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/KR.png
 其他 = url-test,OT_Filter,url = http://www.gstatic.com/generate_204,interval = 600,tolerance = 50,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png
 兜底 = url-test,ALL_Filter,url = http://www.gstatic.com/generate_204,interval = 600,tolerance = 50,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Available.png
+新国手动策略 = select,新加坡,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/SG.png
+美国手动策略 = select,美国,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/US.png
+全球手动策略 = select,香港,美国,新加坡,日本,台湾,韩国,其他,兜底,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png
+兜底后备策略 = fallback,香港,台湾,日本,韩国,新加坡,美国,url = http://www.gstatic.com/generate_204,interval = 600,max-timeout = 2000,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Available.png
 
 
 [Rule]
@@ -56,8 +60,11 @@ FINAL,兜底
 [Remote Rule]
 https://kelee.one/Tool/Loon/Lsr/LAN_SPLITTER.lsr, policy=DIRECT, tag=LAN, enabled=true
 https://kelee.one/Tool/Loon/Lsr/REGION_SPLITTER.lsr, policy=DIRECT, tag=CN REGION, enabled=true
-https://rule.kelee.one/Loon/Telegram.lsr, policy=兜底, tag=Telegram, enabled=true
+https://rule.kelee.one/Loon/Telegram.lsr, policy=兜底后备策略, tag=Telegram, enabled=true
 https://rule.kelee.one/Loon/Binance.lsr, policy=兜底, tag=Binance, enabled=true
+https://kelee.one/Tool/Loon/Lsr/TikTok.lsr, policy=新国手动策略, tag=TikTok, enabled=true
+https://kelee.one/Tool/Loon/Lsr/AI.lsr, policy=美国手动策略, tag=AI, enabled=true
+https://kelee.one/Tool/Loon/Lsr/SpeedtestInternational.lsr, policy=全球手动策略, tag=Speedtest Intl, enabled=true
 
 [Host]
 
