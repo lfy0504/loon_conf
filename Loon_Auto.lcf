@@ -36,14 +36,14 @@ KR_Filter = NameRegex, FilterKey = "(?i)(🇰🇷|韩国|韓國|首尔|首爾|Ko
 OT_Filter = NameRegex, FilterKey = "^(?!.*(🇭🇰|香港|Hong Kong|🇺🇸|美国|美國|United States|USA|🇸🇬|新加坡|狮城|Singapore|🇯🇵|日本|东京|東京|大阪|Japan|🇹🇼|台湾|臺灣|台北|Taiwan|🇰🇷|韩国|韓國|首尔|首爾|Korea)).*$"
 ALL_Filter = NameRegex, FilterKey = "."
 [Proxy Group]
-🇭🇰 香港 = url-test,HK_Filter,url = http://www.gstatic.com/generate_204,interval = 600,tolerance = 50
-🇺🇸 美国 = url-test,US_Filter,url = http://www.gstatic.com/generate_204,interval = 600,tolerance = 50
-🇸🇬 新加坡 = url-test,SG_Filter,url = http://www.gstatic.com/generate_204,interval = 600,tolerance = 50
-🇯🇵 日本 = url-test,JP_Filter,url = http://www.gstatic.com/generate_204,interval = 600,tolerance = 50
-🇹🇼 台湾 = url-test,TW_Filter,url = http://www.gstatic.com/generate_204,interval = 600,tolerance = 50
-🇰🇷 韩国 = url-test,KR_Filter,url = http://www.gstatic.com/generate_204,interval = 600,tolerance = 50
-🌐 其他 = url-test,OT_Filter,url = http://www.gstatic.com/generate_204,interval = 600,tolerance = 50
-🌐 兜底 = url-test,ALL_Filter,url = http://www.gstatic.com/generate_204,interval = 600,tolerance = 50
+香港 = url-test,HK_Filter,url = http://www.gstatic.com/generate_204,interval = 600,tolerance = 50,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/HK.png
+美国 = url-test,US_Filter,url = http://www.gstatic.com/generate_204,interval = 600,tolerance = 50,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/US.png
+新加坡 = url-test,SG_Filter,url = http://www.gstatic.com/generate_204,interval = 600,tolerance = 50,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/SG.png
+日本 = url-test,JP_Filter,url = http://www.gstatic.com/generate_204,interval = 600,tolerance = 50,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/JP.png
+台湾 = url-test,TW_Filter,url = http://www.gstatic.com/generate_204,interval = 600,tolerance = 50,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/TW.png
+韩国 = url-test,KR_Filter,url = http://www.gstatic.com/generate_204,interval = 600,tolerance = 50,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/KR.png
+其他 = url-test,OT_Filter,url = http://www.gstatic.com/generate_204,interval = 600,tolerance = 50,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png
+兜底 = url-test,ALL_Filter,url = http://www.gstatic.com/generate_204,interval = 600,tolerance = 50,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Available.png
 
 
 [Rule]
@@ -51,13 +51,13 @@ ALL_Filter = NameRegex, FilterKey = "."
 # 当配置文件中存在有效的策略组时，内置的PROXY策略组将不再允许被调用，仅可使用用户配置的策略组
 # 配置文件已自带远程GEOIP, cn, DIRECT规则，请勿在此添加
 # 请勿修改远程CN REGION规则的排序甚至删除
-FINAL,🌐 兜底
+FINAL,兜底
 
 [Remote Rule]
 https://kelee.one/Tool/Loon/Lsr/LAN_SPLITTER.lsr, policy=DIRECT, tag=LAN, enabled=true
 https://kelee.one/Tool/Loon/Lsr/REGION_SPLITTER.lsr, policy=DIRECT, tag=CN REGION, enabled=true
-https://rule.kelee.one/Loon/Telegram.lsr, policy=📨 Telegram, tag=Telegram, enabled=true
-https://rule.kelee.one/Loon/Binance.lsr, policy=💰 币安, tag=Binance, enabled=true
+https://rule.kelee.one/Loon/Telegram.lsr, policy=兜底, tag=Telegram, enabled=true
+https://rule.kelee.one/Loon/Binance.lsr, policy=兜底, tag=Binance, enabled=true
 
 [Host]
 
@@ -71,11 +71,11 @@ https://kelee.one/Tool/Loon/Lpx/Block_HTTPDNS.lpx, pin=true, enabled=true
 https://kelee.one/Tool/Loon/Lpx/Bilibili_remove_ads.lpx, enabled=true
 https://yfamilys.com/plugin/adultraplus.plugin, enabled=true
 https://kelee.one/Tool/Loon/Lpx/QuickSearch.lpx, enabled=true
-https://kelee.one/Tool/Loon/Lpx/Prevent_DNS_Leaks.lpx, policy=🌐 兜底, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Prevent_DNS_Leaks.lpx, policy=兜底, enabled=true
 https://kelee.one/Tool/Loon/Lpx/Node_detection_tool.lpx, enabled=true
-https://kelee.one/Tool/Loon/Lpx/BoxJs.lpx, policy=🌐 兜底, enabled=true
-https://kelee.one/Tool/Loon/Lpx/Sub-Store.lpx, policy=🌐 兜底, enabled=true
-https://kelee.one/Tool/Loon/Lpx/Script-Hub.lpx, policy=🌐 兜底, enabled=true
+https://kelee.one/Tool/Loon/Lpx/BoxJs.lpx, policy=兜底, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Sub-Store.lpx, policy=兜底, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Script-Hub.lpx, policy=兜底, enabled=true
 [Mitm]
 hostname =
 ca-p12 = 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
